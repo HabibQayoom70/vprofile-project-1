@@ -3,10 +3,10 @@ name: SonarCloud Analysis
 on:
   push:
     branches:
-      - main
-      - develop
+      - '**'  # Run on push to any branch
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:  # Enables manual trigger button
 
 jobs:
   sonarcloud:
@@ -37,8 +37,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=HabibQayoom70_vprofile-project \
-            -Dsonar.organization=habibqayoom70 \
-            -Dsonar.host.url=https://sonarcloud.io
+        run: mvn clean verify sonar:sonar
